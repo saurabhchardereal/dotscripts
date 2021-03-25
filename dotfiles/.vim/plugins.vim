@@ -40,7 +40,7 @@ let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'c': ['clang-format', 'clangtidy'],
 \   'cpp': ['clang-format', 'clangtidy'],
-\   'sh': ['shfmt', 'shellcheck'],
+\   'sh': ['shfmt'],
 \}
 
 " Fix file on save
