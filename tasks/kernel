@@ -111,6 +111,10 @@ check_dependencies() {
 # Set make arguments
 make_arguments() {
 
+    # Use to report duration only upon running make_kernel
+    # TODO: Rework time keeping
+    _running_make=1
+
     # Common make arguments
     MAKE=(make -j"$(nproc --all)" ARCH="${ARCH}" O="${OUTPUT_DIR}")
 
@@ -152,11 +156,6 @@ make_defconfig() {
 }
 
 make_kernel() {
-
-    # Use to report duration only upon running make_kernel
-    # TODO: Rework time keeping
-    _running_make=1
-
     check_dependencies
     make_arguments
     header "Building kernel..."
@@ -176,7 +175,7 @@ make_kernel() {
     [[ $? != 0 ]] && exit 1
 
     if [[ -n ${MAKE_ZIP} ]]; then
-        ZIMAGE=$(find "${OUTPUT_DIR}" -name Image.gz-dtb)
+        ZIMAGE=$(find "${OUTPUT_DIR}"/arch/"${ARCH}" -name Image.gz-dtb)
         if [[ -n ${ZIMAGE} ]]; then
             header "Making Flashable Zip..."
             ZIP_NAME="ARAGOTO-$(date +"%d%m%Y")-$(date +%H:%M).zip"
